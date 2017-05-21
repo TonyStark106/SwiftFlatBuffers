@@ -87,15 +87,15 @@ let data = m.toFBData()
 
 // Deserialize
 if let n = Monster(root: data) {
-	print("Monster name:    \(n.name!)")
-	print("Monster hp:      \(n.hp)")
-	print("Monster skills:  \(n.testarrayofstring!)")
+  print("Monster name:    \(n.name!)")
+  print("Monster hp:      \(n.hp)")
+  print("Monster skills:  \(n.testarrayofstring!)")
 }
 ```
 
 ## Example
 1. Write your schema files and save them to `fbs` folder.
-2. Run `sh build_flatbuffers.sh` will auto generate your source code and build in `MyFlatBuffers .framework`.
+2. Run `sh build_flatbuffers.sh` will auto generate your source code and build in `MyFlatBuffers.framework`.
 3. add `import MyFlatBuffers` in Example project and try your generated source code.
 
 

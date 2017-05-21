@@ -30,7 +30,7 @@ project.properties
 proguard-project.txt
 linklint_results
 Makefile
-flatc
+*/flatc
 flatc.exe
 flathash
 flathash.exe
