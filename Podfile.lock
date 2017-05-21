@@ -1,0 +1,22 @@
+PODS:
+  - MyFlatBuffers (0.0.1):
+    - SwiftFlatBuffers
+  - SwiftFlatBuffers (1.0.0)
+
+DEPENDENCIES:
+  - MyFlatBuffers (from `Example/MyFlatBuffers/`)
+  - SwiftFlatBuffers (from `./`)
+
+EXTERNAL SOURCES:
+  MyFlatBuffers:
+    :path: Example/MyFlatBuffers/
+  SwiftFlatBuffers:
+    :path: "./"
+
+SPEC CHECKSUMS:
+  MyFlatBuffers: 644f9d3d5199c5a83a635e40226374f7fc9d1b25
+  SwiftFlatBuffers: f25d6360eb393ee59d800eba1c6c27174dfa81b2
+
+PODFILE CHECKSUM: 935e03c369ac29a1e9364fe9c5cdcee2699bfda6
+
+COCOAPODS: 1.2.1

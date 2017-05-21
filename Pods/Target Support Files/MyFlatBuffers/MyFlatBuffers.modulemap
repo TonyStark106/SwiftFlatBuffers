@@ -1,0 +1,6 @@
+framework module MyFlatBuffers {
+  umbrella header "MyFlatBuffers-umbrella.h"
+
+  export *
+  module * { export * }
+}

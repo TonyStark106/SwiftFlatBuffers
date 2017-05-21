@@ -1,0 +1,41 @@
+attribute "priority";
+
+enum Color:byte (bit_flags) { Red = 0, Green, Blue = 3 }
+
+union Any { Monster, Stat }
+
+struct Vec3 (force_align: 16) {
+  x:float;
+  y:float;
+  z:float;
+  test1:double;
+  test2:Color;
+}
+
+struct Ability {
+  id:uint(key);
+  distance:uint;
+}
+
+table Stat {
+  id:string;
+  val:long;
+  count:ushort;
+}
+
+table Monster {
+  pos:Vec3 (id: 0);
+  hp:short = 100 (id: 2);
+  mana:short = 150 (id: 1);
+  name:string (id: 3, required, key);
+  color:Color = Blue (id: 6);
+  inventory:[ubyte] (id: 5);
+  friendly:bool = false (deprecated, priority: 1, id: 4);
+  testarrayoftables:[Stat] (id: 7);
+  testarrayofstring:[string] (id: 8);
+  testarrayofbools:[bool] (id: 9);
+  testarrayofsortedstruct:[Ability] (id: 10);
+  test:Any (id: 12);
+}
+
+root_type Monster;
