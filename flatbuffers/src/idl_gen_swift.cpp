@@ -56,12 +56,12 @@ namespace flatbuffers {
             " {\n",
             "}\n",
             "internal static ",
-            "public class ",
-            "public lazy var ",
-            "fileprivate lazy var ",
-            "private lazy var ",
-            "public override var ",
-            "private func _add_",
+            "public final class ",
+            "public final lazy var ",
+            "fileprivate final lazy var ",
+            "private final lazy var ",
+            "public final override var ",
+            "fileprivate final func _add_",
             "public enum ",
             "case ",
             "    ",
@@ -134,6 +134,7 @@ namespace flatbuffers {
                 std::string code = "";
                 code += language_parameters.file_explain;
                 code += "\n\n";
+                code += "import Foundation\n";
                 code += "import " + framework_name + "\n\n";
                 GenEnums(&code);
                 GenStructs(&code);
@@ -235,15 +236,13 @@ namespace flatbuffers {
             } else {
                 GenGetterMethod(field_def, code_ptr);
             }
+            
             code += language_parameters.indent;
             code += "}()";
             code += "\n\n";
             
             // set
             if (field_def.value.type.base_type != BASE_TYPE_UTYPE) {
-                extension_code += language_parameters.indent;
-                extension_code += "@objc";
-                extension_code += "\n";
                 extension_code += language_parameters.indent;
                 extension_code += language_parameters.struct_func_private;
                 extension_code += field_def.name;
@@ -506,7 +505,7 @@ namespace flatbuffers {
             }
             if (enum_def.underlying_type.base_type == BASE_TYPE_UTYPE) {
                 code += language_parameters.indent;
-                code += "var type: FBTable.Type?";
+                code += "internal var type: FBTable.Type?";
                 code += language_parameters.open_curly;
                 code += language_parameters.indent;
                 code += language_parameters.indent;
@@ -558,11 +557,19 @@ namespace flatbuffers {
                 code += language_parameters.open_curly;
                 
                 GenIndent(code_ptr, 2);
+                code += "if ins == nil";
+                code += language_parameters.open_curly;
+                GenIndent(code_ptr, 3);
+                code += "return .NONE\n";
+                GenIndent(code_ptr, 2);
+                code += language_parameters.close_curly;
+                
+                GenIndent(code_ptr, 2);
                 code += "for value in allValues";
                 code += language_parameters.open_curly;
                 
                 GenIndent(code_ptr, 3);
-                code += "if ins?.classForCoder == value.type";
+                code += "if type(of: ins!) == value.type";
                 code += language_parameters.open_curly;
                 GenIndent(code_ptr, 4);
                 code += "return value\n";
@@ -625,6 +632,33 @@ namespace flatbuffers {
                 }
             }
             GenStructHardCode(struct_def, byteSize, code_ptr);
+            
+            // toFBData()
+            code += language_parameters.indent;
+            code += "public final override func toFBData() -> Data";
+            code += language_parameters.open_curly;
+            GenIndent(code_ptr, 2);
+            code += "let temp = ";
+            code += checkKeywods(namespace_ifneeded(struct_def.name, struct_def.defined_namespace));
+            code += "()\n";
+            for (auto it = struct_def.fields.vec.begin();
+                 it != struct_def.fields.vec.end();
+                 ++it) {
+                auto &field = **it;
+                if (field.deprecated) continue;
+                if (field.value.type.base_type == BASE_TYPE_UTYPE) continue;
+                GenIndent(code_ptr, 2);
+                code += "temp._add_" + checkKeywods(field.name);
+                code += "(i: self)\n";
+            }
+            
+            GenIndent(code_ptr, 2);
+            code += "return temp.bbData\n";
+            
+            code += language_parameters.indent;
+            code += language_parameters.close_curly;
+            code += "\n";
+            
             code += language_parameters.close_curly;
             code += "\n";
             

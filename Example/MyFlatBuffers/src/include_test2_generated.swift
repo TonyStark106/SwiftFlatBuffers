@@ -4,6 +4,7 @@
 //  SwiftFlatBuffers  <https://github.com/TonyStark106/SwiftFlatBuffers>            
 //
 
+import Foundation
 import SwiftFlatBuffers
 
 public enum MyGame_OtherNameSpace_FromInclude: Int64 {
@@ -12,14 +13,19 @@ public enum MyGame_OtherNameSpace_FromInclude: Int64 {
 
 }
 
-public class MyGame_OtherNameSpace_Unused: FBTable {
+public final class MyGame_OtherNameSpace_Unused: FBTable {
 
-    public override var hardPos: FBOffset {
+    public final override var hardPos: FBOffset {
         return 0
     }
 
-    public override var hardSize: UInt {
+    public final override var hardSize: UInt {
         return 0
+    }
+
+    public final override func toFBData() -> Data {
+        let temp = MyGame_OtherNameSpace_Unused()
+        return temp.bbData
     }
 
 }

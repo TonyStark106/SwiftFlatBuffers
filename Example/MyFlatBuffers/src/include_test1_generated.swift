@@ -4,5 +4,6 @@
 //  SwiftFlatBuffers  <https://github.com/TonyStark106/SwiftFlatBuffers>            
 //
 
+import Foundation
 import SwiftFlatBuffers
 

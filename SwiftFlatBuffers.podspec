@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'SwiftFlatBuffers'
-  s.version          = '1.0.0'
+  s.version          = '1.1.0'
   s.summary          = 'SwiftFlatBuffers is a Swift implementation of FlatBuffers.'
 
   s.description      = <<-DESC
@@ -20,7 +20,6 @@ SwiftFlatBuffers is a Swift implementation of FlatBuffers.
   s.watchos.deployment_target = '2.0'
   s.tvos.deployment_target = '9.0'
 
-  s.source_files = 'SwiftFlatBuffers/src/*'
-
+  s.source_files = 'Sources/*'
   s.frameworks = 'Foundation'
 end

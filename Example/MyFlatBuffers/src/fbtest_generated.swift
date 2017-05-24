@@ -4,6 +4,7 @@
 //  SwiftFlatBuffers  <https://github.com/TonyStark106/SwiftFlatBuffers>            
 //
 
+import Foundation
 import SwiftFlatBuffers
 
 public enum Color: Int8 {
@@ -24,7 +25,7 @@ public enum `Any`: UInt8 {
 
     case STAT = 2
 
-    var type: FBTable.Type? {
+    internal var type: FBTable.Type? {
         switch self {
         case .NONE:
             return nil
@@ -38,8 +39,11 @@ public enum `Any`: UInt8 {
     internal static let allValues = [NONE, MONSTER, STAT]
 
     internal static func value(_ ins: FBTable?) -> `Any` {
+        if ins == nil {
+            return .NONE
+        }
         for value in allValues {
-            if ins?.classForCoder == value.type {
+            if type(of: ins!) == value.type {
                 return value
             }
         }
@@ -48,261 +52,281 @@ public enum `Any`: UInt8 {
 
 }
 
-public class Vec3: FBTable {
+public final class Vec3: FBTable {
 
-    public lazy var x: Float32 = {
+    public final lazy var x: Float32 = {
         return self.getFloat32(vOffset: 0)
     }()
 
-    public lazy var y: Float32 = {
+    public final lazy var y: Float32 = {
         return self.getFloat32(vOffset: 4)
     }()
 
-    public lazy var z: Float32 = {
+    public final lazy var z: Float32 = {
         return self.getFloat32(vOffset: 8)
     }()
 
-    public lazy var test1: Float64 = {
+    public final lazy var test1: Float64 = {
         return self.getFloat64(vOffset: 16)
     }()
 
-    public lazy var test2: Color? = {
+    public final lazy var test2: Color? = {
         return Color(rawValue: self.getInt8(vOffset: 24))
     }()
 
-    public override var hardPos: FBOffset {
+    public final override var hardPos: FBOffset {
         return 0
     }
 
-    public override var hardSize: UInt {
+    public final override var hardSize: UInt {
         return 32
+    }
+
+    public final override func toFBData() -> Data {
+        let temp = Vec3()
+        temp._add_x(i: self)
+        temp._add_y(i: self)
+        temp._add_z(i: self)
+        temp._add_test1(i: self)
+        temp._add_test2(i: self)
+        return temp.bbData
     }
 
 }
 
 extension Vec3 {
 
-    @objc
-    private func _add_x(i: Vec3) {
+    fileprivate final func _add_x(i: Vec3) {
         set(vOffset: 0, pOffset: 4, value: i.x)
     }
 
-    @objc
-    private func _add_y(i: Vec3) {
+    fileprivate final func _add_y(i: Vec3) {
         set(vOffset: 4, pOffset: 8, value: i.y)
     }
 
-    @objc
-    private func _add_z(i: Vec3) {
+    fileprivate final func _add_z(i: Vec3) {
         set(vOffset: 8, pOffset: 12, value: i.z)
     }
 
-    @objc
-    private func _add_test1(i: Vec3) {
+    fileprivate final func _add_test1(i: Vec3) {
         set(vOffset: 16, pOffset: 16, value: i.test1)
     }
 
-    @objc
-    private func _add_test2(i: Vec3) {
+    fileprivate final func _add_test2(i: Vec3) {
         set(vOffset: 24, pOffset: 24, value: i.test2?.rawValue)
     }
 
 }
 
-public class Ability: FBTable {
+public final class Ability: FBTable {
 
-    public lazy var id: UInt32 = {
+    public final lazy var id: UInt32 = {
         return self.getUInt32(vOffset: 0)
     }()
 
-    public lazy var distance: UInt32 = {
+    public final lazy var distance: UInt32 = {
         return self.getUInt32(vOffset: 4)
     }()
 
-    public override var hardPos: FBOffset {
+    public final override var hardPos: FBOffset {
         return 0
     }
 
-    public override var hardSize: UInt {
+    public final override var hardSize: UInt {
         return 8
+    }
+
+    public final override func toFBData() -> Data {
+        let temp = Ability()
+        temp._add_id(i: self)
+        temp._add_distance(i: self)
+        return temp.bbData
     }
 
 }
 
 extension Ability {
 
-    @objc
-    private func _add_id(i: Ability) {
+    fileprivate final func _add_id(i: Ability) {
         set(vOffset: 0, pOffset: 4, value: i.id)
     }
 
-    @objc
-    private func _add_distance(i: Ability) {
+    fileprivate final func _add_distance(i: Ability) {
         set(vOffset: 4, pOffset: 8, value: i.distance)
     }
 
 }
 
-public class Stat: FBTable {
+public final class Stat: FBTable {
 
-    public lazy var id: String? = {
+    public final lazy var id: String? = {
         return self.getString(vOffset: 4)
     }()
 
-    public lazy var val: Int64 = {
+    public final lazy var val: Int64 = {
         return self.getInt64(vOffset: 6)
     }()
 
-    public lazy var count: UInt16 = {
+    public final lazy var count: UInt16 = {
         return self.getUInt16(vOffset: 8)
     }()
 
-    public override var hardPos: FBOffset {
+    public final override var hardPos: FBOffset {
         return 16
     }
 
-    public override var hardSize: UInt {
+    public final override var hardSize: UInt {
         return 34
+    }
+
+    public final override func toFBData() -> Data {
+        let temp = Stat()
+        temp._add_id(i: self)
+        temp._add_val(i: self)
+        temp._add_count(i: self)
+        return temp.bbData
     }
 
 }
 
 extension Stat {
 
-    @objc
-    private func _add_id(i: Stat) {
+    fileprivate final func _add_id(i: Stat) {
         set(vOffset: 4, pOffset: 4, value: i.id)
     }
 
-    @objc
-    private func _add_val(i: Stat) {
+    fileprivate final func _add_val(i: Stat) {
         set(vOffset: 6, pOffset: 8, value: i.val)
     }
 
-    @objc
-    private func _add_count(i: Stat) {
+    fileprivate final func _add_count(i: Stat) {
         set(vOffset: 8, pOffset: 16, value: i.count)
     }
 
 }
 
-public class Monster: FBTable {
+public final class Monster: FBTable {
 
-    public lazy var pos: Vec3? = {
+    public final lazy var pos: Vec3? = {
         return self.getStruct(type: Vec3.self, vOffset: 4)
     }()
 
-    public lazy var mana: Int16 = {
+    public final lazy var mana: Int16 = {
         let m_mana = self.getInt16(vOffset: 6)
         return m_mana != 0 ? m_mana : 150
     }()
 
-    public lazy var hp: Int16 = {
+    public final lazy var hp: Int16 = {
         let m_hp = self.getInt16(vOffset: 8)
         return m_hp != 0 ? m_hp : 100
     }()
 
-    public lazy var name: String? = {
+    public final lazy var name: String? = {
         return self.getString(vOffset: 10)
     }()
 
-    public lazy var inventory: [UInt8]? = {
+    public final lazy var inventory: [UInt8]? = {
         return self.getNumbers(vOffset: 14)
     }()
 
-    public lazy var color: Color? = {
+    public final lazy var color: Color? = {
         let m_color = Color(rawValue: self.getInt8(vOffset: 16))
         return m_color ?? Color(rawValue: 8)!
     }()
 
-    public lazy var testarrayoftables: [Stat]? = {
+    public final lazy var testarrayoftables: [Stat]? = {
         return self.getTables(type: Stat.self, vOffset: 18)
     }()
 
-    public lazy var testarrayofstring: [String]? = {
+    public final lazy var testarrayofstring: [String]? = {
         return self.getStrings(vOffset: 20)
     }()
 
-    public lazy var testarrayofbools: [Bool]? = {
+    public final lazy var testarrayofbools: [Bool]? = {
         return self.getNumbers(vOffset: 22)
     }()
 
-    public lazy var testarrayofsortedstruct: [Ability]? = {
+    public final lazy var testarrayofsortedstruct: [Ability]? = {
         return self.getStructs(type: Ability.self, vOffset: 24, byteSize: 8)
     }()
 
-    fileprivate lazy var test_type: FBTable.Type? = {
+    fileprivate final lazy var test_type: FBTable.Type? = {
         return `Any`(rawValue: self.getUInt8(vOffset: 26))?.type
     }()
 
-    public lazy var test: FBTable? = {
+    public final lazy var test: FBTable? = {
         return self.test_type != nil ? self.getTable(type: self.test_type!, vOffset: 28) : nil
     }()
 
-    public override var hardPos: FBOffset {
+    public final override var hardPos: FBOffset {
         return 36
     }
 
-    public override var hardSize: UInt {
+    public final override var hardSize: UInt {
         return 106
+    }
+
+    public final override func toFBData() -> Data {
+        let temp = Monster()
+        temp._add_pos(i: self)
+        temp._add_mana(i: self)
+        temp._add_hp(i: self)
+        temp._add_name(i: self)
+        temp._add_inventory(i: self)
+        temp._add_color(i: self)
+        temp._add_testarrayoftables(i: self)
+        temp._add_testarrayofstring(i: self)
+        temp._add_testarrayofbools(i: self)
+        temp._add_testarrayofsortedstruct(i: self)
+        temp._add_test(i: self)
+        return temp.bbData
     }
 
 }
 
 extension Monster {
 
-    @objc
-    private func _add_pos(i: Monster) {
+    fileprivate final func _add_pos(i: Monster) {
         set(vOffset: 4, pOffset: 4, value: i.pos)
     }
 
-    @objc
-    private func _add_mana(i: Monster) {
+    fileprivate final func _add_mana(i: Monster) {
         set(vOffset: 6, pOffset: 36, value: i.mana)
     }
 
-    @objc
-    private func _add_hp(i: Monster) {
+    fileprivate final func _add_hp(i: Monster) {
         set(vOffset: 8, pOffset: 38, value: i.hp)
     }
 
-    @objc
-    private func _add_name(i: Monster) {
+    fileprivate final func _add_name(i: Monster) {
         set(vOffset: 10, pOffset: 40, value: i.name)
     }
 
-    @objc
-    private func _add_inventory(i: Monster) {
+    fileprivate final func _add_inventory(i: Monster) {
         set(vOffset: 14, pOffset: 44, value: i.inventory)
     }
 
-    @objc
-    private func _add_color(i: Monster) {
+    fileprivate final func _add_color(i: Monster) {
         set(vOffset: 16, pOffset: 48, value: i.color?.rawValue)
     }
 
-    @objc
-    private func _add_testarrayoftables(i: Monster) {
+    fileprivate final func _add_testarrayoftables(i: Monster) {
         set(vOffset: 18, pOffset: 49, value: i.testarrayoftables)
     }
 
-    @objc
-    private func _add_testarrayofstring(i: Monster) {
+    fileprivate final func _add_testarrayofstring(i: Monster) {
         set(vOffset: 20, pOffset: 53, value: i.testarrayofstring)
     }
 
-    @objc
-    private func _add_testarrayofbools(i: Monster) {
+    fileprivate final func _add_testarrayofbools(i: Monster) {
         set(vOffset: 22, pOffset: 57, value: i.testarrayofbools)
     }
 
-    @objc
-    private func _add_testarrayofsortedstruct(i: Monster) {
+    fileprivate final func _add_testarrayofsortedstruct(i: Monster) {
         set(vOffset: 24, pOffset: 61, value: i.testarrayofsortedstruct)
     }
 
-    @objc
-    private func _add_test(i: Monster) {
+    fileprivate final func _add_test(i: Monster) {
         set(vOffset: 26, pOffset: 65, value: `Any`.value(i.test))
         set(vOffset: 28, pOffset: 66, value: i.test)
     }

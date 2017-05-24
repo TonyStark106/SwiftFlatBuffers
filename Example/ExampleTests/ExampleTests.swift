@@ -72,7 +72,7 @@ class ExampleTests: XCTestCase {
 
     func testSwiftToSwift() {
         let m = getMonster()
-        let n = Monster(root: m.toFBData()!)!
+        let n = Monster(root: m.toFBData())!
 
         assert(m.pos?.x == n.pos?.x)
         assert(m.pos?.y == n.pos?.y)
@@ -100,7 +100,7 @@ class ExampleTests: XCTestCase {
     }
 
     func testSwiftToCpp() {
-        Helper.testSwift(toCpp: getMonster().toFBData()!)
+        Helper.testSwift(toCpp: getMonster().toFBData())
     }
 
     func testCppToSwift() {
@@ -146,7 +146,7 @@ class ExampleTests: XCTestCase {
     }
 
     func testDefaultValue() {
-        let data = Monster().toFBData()!
+        let data = Monster().toFBData()
         let m = Monster(root: data)!
 
         assert(m.color == .Blue)
@@ -160,18 +160,18 @@ class ExampleTests: XCTestCase {
 
     func testUnionValue() {
         let m = Monster()
-        assert(Monster(root: m.toFBData()!)?.test == nil)
+        assert(Monster(root: m.toFBData())?.test == nil)
         
         let n = Monster()
         n.name = "Cat"
         m.test = n
-        assert((Monster(root: m.toFBData()!)?.test as! Monster).name == "Cat")
+        assert((Monster(root: m.toFBData())?.test as! Monster).name == "Cat")
         
         let s = Stat()
         s.id = "ID007"
         s.count = 3
         m.test = s
-        let newS = (Monster(root: m.toFBData()!)!.test!) as! Stat
+        let newS = (Monster(root: m.toFBData())!.test!) as! Stat
         assert(newS.id == s.id)
         assert(newS.count == s.count)
         assert(newS.val == 0)

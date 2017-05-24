@@ -9,7 +9,7 @@ import Foundation
 
 public typealias FBOffset = Int32
 
-open class FBTable: NSObject {
+open class FBTable {
     open var hardSize: UInt {
         return 0
     }
@@ -18,18 +18,21 @@ open class FBTable: NSObject {
         return 0
     }
     
-    fileprivate var isFixed: Bool {
+    public final var isFixed: Bool {
         return hardPos == 0
     }
     
-    fileprivate var _bbPos: FBOffset!
-    fileprivate var _bb: FBBufferData!
-    private(set) fileprivate lazy var vTable: FBOffset = {
+    public final var bbData: Data {
+        return _bb._data
+    }
+    
+    fileprivate final var _bbPos: FBOffset!
+    fileprivate final var _bb: FBBufferData!
+    fileprivate private(set) final lazy var vTable: FBOffset = {
         return self.isFixed ? self._bbPos : self._bbPos - self._bb.dataGetInt32(offset: self._bbPos)
     }()
     
-    required public override init() {
-        super.init()
+    required public init() {
         let bufferData = FBBufferData(capacity: hardSize)
         if isFixed {
             _bbPos = 0
@@ -56,7 +59,6 @@ open class FBTable: NSObject {
         let bbPos = bb.dataGetInt32(offset: 0)
         _bbPos = bbPos
         _bb = bb
-        super.init()
         if FBTable.verifier(_bbPos, vTable, bb, isFixed) == false {
             return nil
         }
@@ -65,36 +67,15 @@ open class FBTable: NSObject {
     required public init?(pos: FBOffset, bb: FBBufferData) {
         _bbPos = pos
         _bb = bb
-        super.init()
         if FBTable.verifier(_bbPos, vTable, bb, isFixed) == false {
             return nil
         }
     }
     
-    public func toFBData() -> Data? {
-        var cls: AnyClass? = self.classForCoder
-        var spc: AnyClass? = cls?.superclass()
-        while spc != FBTable.self && spc != nil {
-            cls = spc
-            spc = spc?.superclass()
-        }
-        if let T = self.classForCoder as? FBTable.Type {
-            let m = T.init()
-            var count: UInt32 = 0;
-            let methodsList = class_copyMethodList(T, &count)
-            for i in 0..<count {
-                if let method = methodsList?[Int(i)], let sel = method_getName(method) {
-                    let name = sel.description
-                    if name.hasPrefix("_add_") {
-                        m.perform(sel, with: self)
-                    }
-                }
-            }
-            free(methodsList)
-            return m._bb._data
-        }
-        return nil
+    open func toFBData() -> Data {
+        fatalError("something must wrong")
     }
+
 }
 
 // MARK: - Deserialize
@@ -128,7 +109,7 @@ extension FBTable {
         return true
     }
     
-    public func getBool(vOffset: FBOffset) -> Bool {
+    public final func getBool(vOffset: FBOffset) -> Bool {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return false
@@ -136,7 +117,7 @@ extension FBTable {
         return _bb.dataGetBool(offset: offset)
     }
     
-    public func getInt8(vOffset: FBOffset) -> Int8 {
+    public final func getInt8(vOffset: FBOffset) -> Int8 {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return 0
@@ -144,7 +125,7 @@ extension FBTable {
         return _bb.dataGetInt8(offset: offset)
     }
     
-    public func getUInt8(vOffset: FBOffset) -> UInt8 {
+    public final func getUInt8(vOffset: FBOffset) -> UInt8 {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return 0
@@ -152,7 +133,7 @@ extension FBTable {
         return _bb.dataGetUInt8(offset: offset)
     }
     
-    public func getInt16(vOffset: FBOffset) -> Int16 {
+    public final func getInt16(vOffset: FBOffset) -> Int16 {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return 0
@@ -160,7 +141,7 @@ extension FBTable {
         return _bb.dataGetInt16(offset: offset)
     }
     
-    public func getUInt16(vOffset: FBOffset) -> UInt16 {
+    public final func getUInt16(vOffset: FBOffset) -> UInt16 {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return 0
@@ -168,7 +149,7 @@ extension FBTable {
         return _bb.dataGetUInt16(offset: offset)
     }
     
-    public func getInt32(vOffset: FBOffset) -> Int32 {
+    public final func getInt32(vOffset: FBOffset) -> Int32 {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return 0
@@ -176,7 +157,7 @@ extension FBTable {
         return _bb.dataGetInt32(offset: offset)
     }
     
-    public func getUInt32(vOffset: FBOffset) -> UInt32 {
+    public final func getUInt32(vOffset: FBOffset) -> UInt32 {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return 0
@@ -184,7 +165,7 @@ extension FBTable {
         return _bb.dataGetUInt32(offset: offset)
     }
     
-    public func getInt64(vOffset: FBOffset) -> Int64 {
+    public final func getInt64(vOffset: FBOffset) -> Int64 {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return 0
@@ -192,7 +173,7 @@ extension FBTable {
         return _bb.dataGetInt64(offset: offset)
     }
     
-    public func getUInt64(vOffset: FBOffset) -> UInt64 {
+    public final func getUInt64(vOffset: FBOffset) -> UInt64 {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return 0
@@ -200,7 +181,7 @@ extension FBTable {
         return _bb.dataGetUInt64(offset: offset)
     }
     
-    public func getFloat32(vOffset: FBOffset) -> Float32 {
+    public final func getFloat32(vOffset: FBOffset) -> Float32 {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return 0
@@ -208,7 +189,7 @@ extension FBTable {
         return _bb.dataGetFloat32(offset: offset)
     }
     
-    public func getFloat64(vOffset: FBOffset) -> Float64 {
+    public final func getFloat64(vOffset: FBOffset) -> Float64 {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return 0
@@ -216,7 +197,7 @@ extension FBTable {
         return _bb.dataGetFloat64(offset: offset)
     }
     
-    public func getString(vOffset: FBOffset) -> String? {
+    public final func getString(vOffset: FBOffset) -> String? {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return nil
@@ -224,7 +205,7 @@ extension FBTable {
         return _bb.dataGetString(offset: offset)
     }
     
-    public func getStruct<T: FBTable>(type: T.Type, vOffset: FBOffset) -> T? {
+    public final func getStruct<T: FBTable>(type: T.Type, vOffset: FBOffset) -> T? {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return nil
@@ -233,7 +214,7 @@ extension FBTable {
         return s
     }
     
-    public func getTable<T: FBTable>(type: T.Type, vOffset: FBOffset) -> T? {
+    public final func getTable<T: FBTable>(type: T.Type, vOffset: FBOffset) -> T? {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return nil
@@ -241,7 +222,7 @@ extension FBTable {
         return type.init(pos: indirect(offset: offset), bb: _bb)
     }
     
-    public func getStrings(vOffset: FBOffset) -> [String]? {
+    public final func getStrings(vOffset: FBOffset) -> [String]? {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return nil
@@ -258,7 +239,7 @@ extension FBTable {
         return list.count > 0 ? list : nil
     }
     
-    public func getStructs<T: FBTable>(type: T.Type, vOffset: FBOffset, byteSize: FBOffset) -> [T]? {
+    public final func getStructs<T: FBTable>(type: T.Type, vOffset: FBOffset, byteSize: FBOffset) -> [T]? {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return nil
@@ -276,7 +257,7 @@ extension FBTable {
         return list.count > 0 ? list : nil
     }
     
-    public func getTables<T: FBTable>(type: T.Type, vOffset: FBOffset) -> [T]? {
+    public final func getTables<T: FBTable>(type: T.Type, vOffset: FBOffset) -> [T]? {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return nil
@@ -294,7 +275,7 @@ extension FBTable {
         return list.count > 0 ? list : nil
     }
     
-    public func getNumbers<T>(vOffset: FBOffset) -> [T]? {
+    public final func getNumbers<T>(vOffset: FBOffset) -> [T]? {
         let offset = getOffset(vOffset: vOffset)
         if offset == 0 {
             return nil
@@ -316,22 +297,19 @@ extension FBTable {
 
 // MARK: - Serialization
 extension FBTable {
-    private func put(table: FBTable, offset: FBOffset) {
-        if let data = table.toFBData() {
-            if table.isFixed {
-                _bb.dataSet(offset: offset, data: data)
-            } else {
-                _bb.dataSet(offset: offset,
-                            value: _bb.length - offset + table._bbPos,
-                            length: 4)
-                _bb.dataAppend(data: data)
-            }
+    private final func put(table: FBTable, offset: FBOffset) {
+        let data = table.toFBData()
+        if table.isFixed {
+            _bb.dataSet(offset: offset, data: data)
         } else {
-            assert(false)
+            _bb.dataSet(offset: offset,
+                        value: _bb.length - offset + table._bbPos,
+                        length: 4)
+            _bb.dataAppend(data: data)
         }
     }
     
-    private func put(str: String, offset: FBOffset) {
+    private final func put(str: String, offset: FBOffset) {
         if let strData = str.data(using: .utf8) {
             var strLen = str.characters.count
             _bb.dataSet(offset: offset,
@@ -346,7 +324,7 @@ extension FBTable {
         }
     }
     
-    private func put(arr: Array<Any>, offset: FBOffset) {
+    private final func put(arr: Array<Any>, offset: FBOffset) {
         let arrLength = arr.count
         var pointerData: FBBufferData!
         var contentData = Data()
@@ -354,7 +332,7 @@ extension FBTable {
             pointerData = _arr[0].isFixed ? FBBufferData(capacity: 4) : FBBufferData(capacity: UInt(arrLength + 1) * 4)
             for i in 0..<arrLength {
                 let table = _arr[i]
-                let tableData = table.toFBData()!
+                let tableData = table.toFBData()
                 if table.isFixed == false {
                     let k = FBOffset(i * 4 + 4)
                     pointerData.dataSet(offset: k,
@@ -407,7 +385,7 @@ extension FBTable {
         _bb.dataAppend(data: pointerData)
     }
     
-    public func set<T>(vOffset: FBOffset, pOffset: FBOffset, value: T?) {
+    public final func set<T>(vOffset: FBOffset, pOffset: FBOffset, value: T?) {
         if let v = value {
             let offset = isFixed ? vOffset : pOffset + _bbPos
             if let arr = v as? Array<Any> {
@@ -431,7 +409,7 @@ extension FBTable {
 }
 
 extension FBTable {
-    fileprivate func getOffset(vOffset: FBOffset) -> FBOffset {
+    fileprivate final func getOffset(vOffset: FBOffset) -> FBOffset {
         if isFixed {
             return _bbPos + vOffset
         }
@@ -442,25 +420,25 @@ extension FBTable {
         return FBOffset(pOffset) + _bbPos
     }
     
-    fileprivate func getVector(vOffset: FBOffset) -> FBOffset {
+    fileprivate final func getVector(vOffset: FBOffset) -> FBOffset {
         let o = getOffset(vOffset: vOffset)
         return o + _bb.dataGetInt32(offset: o) + 4
     }
     
-    fileprivate func getVectorLength(vOffset: FBOffset) -> FBOffset {
+    fileprivate final func getVectorLength(vOffset: FBOffset) -> FBOffset {
         var o = getOffset(vOffset: vOffset)
         o += _bb.dataGetInt32(offset: o)
         return _bb.dataGetInt32(offset: o)
     }
     
-    fileprivate func indirect(offset: FBOffset) -> FBOffset {
+    fileprivate final func indirect(offset: FBOffset) -> FBOffset {
         return _bb.dataGetInt32(offset: offset) + offset
     }
 }
 
 // MARK: - Get
-public class FBBufferData: NSObject {
-    fileprivate var _data: Data
+public class FBBufferData {
+    fileprivate final var _data: Data
     fileprivate init(data: Data) {
         _data = data
     }
@@ -469,59 +447,59 @@ public class FBBufferData: NSObject {
         _data = Data(count: Int(capacity))
     }
     
-    fileprivate var length: Int32 {
+    fileprivate final var length: Int32 {
         return Int32(_data.count)
     }
     
-    fileprivate func dataGetBool(offset: FBOffset) -> Bool {
+    fileprivate final func dataGetBool(offset: FBOffset) -> Bool {
         return(dataGet(offset: offset) as Bool?) ?? false
     }
     
-    fileprivate func dataGetInt8(offset: FBOffset) -> Int8 {
+    fileprivate final func dataGetInt8(offset: FBOffset) -> Int8 {
         return(dataGet(offset: offset) as Int8?) ?? 0
     }
     
-    fileprivate func dataGetUInt8(offset: FBOffset) -> UInt8 {
+    fileprivate final func dataGetUInt8(offset: FBOffset) -> UInt8 {
         return(dataGet(offset: offset) as UInt8?) ?? 0
     }
     
-    fileprivate func dataGetInt16(offset: FBOffset) -> Int16 {
+    fileprivate final func dataGetInt16(offset: FBOffset) -> Int16 {
         return(dataGet(offset: offset) as Int16?) ?? 0
     }
     
-    fileprivate func dataGetUInt16(offset: FBOffset) -> UInt16 {
+    fileprivate final func dataGetUInt16(offset: FBOffset) -> UInt16 {
         return(dataGet(offset: offset) as UInt16?) ?? 0
     }
     
-    fileprivate func dataGetInt32(offset: FBOffset) -> Int32 {
+    fileprivate final func dataGetInt32(offset: FBOffset) -> Int32 {
         return (dataGet(offset: offset) as Int32?) ?? 0
     }
     
-    fileprivate func dataGetUInt32(offset: FBOffset) -> UInt32 {
+    fileprivate final func dataGetUInt32(offset: FBOffset) -> UInt32 {
         return (dataGet(offset: offset) as UInt32?) ?? 0
     }
     
-    fileprivate func dataGetInt64(offset: FBOffset) -> Int64 {
+    fileprivate final func dataGetInt64(offset: FBOffset) -> Int64 {
         return (dataGet(offset: offset) as Int64?) ?? 0
     }
     
-    fileprivate func dataGetUInt64(offset: FBOffset) -> UInt64 {
+    fileprivate final func dataGetUInt64(offset: FBOffset) -> UInt64 {
         return (dataGet(offset: offset) as UInt64?) ?? 0
     }
     
-    fileprivate func dataGetFloat32(offset: FBOffset) -> Float32 {
+    fileprivate final func dataGetFloat32(offset: FBOffset) -> Float32 {
         return (dataGet(offset: offset) as Float32?) ?? 0
     }
     
-    fileprivate func dataGetFloat64(offset: FBOffset) -> Float64 {
+    fileprivate final func dataGetFloat64(offset: FBOffset) -> Float64 {
         return (dataGet(offset: offset) as Float64?) ?? 0
     }
     
-    fileprivate func dataGet<T>(offset: FBOffset) -> T? {
+    fileprivate final func dataGet<T>(offset: FBOffset) -> T? {
         return _data.dataGet_(offset: offset)
     }
     
-    fileprivate func dataGetString(offset: FBOffset) -> String? {
+    fileprivate final func dataGetString(offset: FBOffset) -> String? {
         let offset = offset + dataGetInt32(offset: offset)
         let length = dataGetInt32(offset: offset)
         if let data = _data.subdata_(offset: offset + 4, length: length) {
@@ -534,19 +512,19 @@ public class FBBufferData: NSObject {
 
 // MARK: - Set
 extension FBBufferData {
-    fileprivate func dataSet<T>(offset: FBOffset, value: T, length: FBOffset) {
+    fileprivate final func dataSet<T>(offset: FBOffset, value: T, length: FBOffset) {
         _data.dataSet_(offset: offset, value: value, length: length)
     }
     
-    fileprivate func dataSet(offset: FBOffset, data: Data) {
+    fileprivate final func dataSet(offset: FBOffset, data: Data) {
         _data.dataSet_(offset: offset, data: data)
     }
     
-    fileprivate func dataAppend(data: Data) {
+    fileprivate final func dataAppend(data: Data) {
         _data.append(data)
     }
     
-    fileprivate func dataAppend(data: FBBufferData) {
+    fileprivate final func dataAppend(data: FBBufferData) {
         _data.append(data._data)
     }
 }
