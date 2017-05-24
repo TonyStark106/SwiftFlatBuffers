@@ -114,7 +114,10 @@ if let n = Monster(root: data) {
 
 
 ## Unit Test
+
 Open `SwiftFlatBuffers.xcworkspace` and set the active schema to `Example` then hit `Command + U`.
 
+[ExampleTests.swift](https://github.com/TonyStark106/SwiftFlatBuffers/blob/master/Example/ExampleTests/ExampleTests.swift)
+
 ## Licensing
-SwiftFlatBuffers is licensed under the Apache License, Version 2.0. See [LICENSE](https://github.com/google/flatbuffers/blob/master/LICENSE.txt) for the full license text.
+SwiftFlatBuffers is licensed under the Apache License, Version 2.0. See [LICENSE](https://github.com/TonyStark106/SwiftFlatBuffers/blob/master/LICENSE.txt) for the full license text.
