@@ -1,11 +1,13 @@
 ## Introduction
 FlatBuffers is an efficient cross platform serialization library for games and other memory constrained apps. It allows you to directly access serialized data without unpacking/parsing it first, while still having great forwards/backwards compatibility.
 
-SwiftFlatBuffers is a Swift library for FlatBuffers which support most FlatBuffers feature with firendly interface.
+SwiftFlatBuffers is a Swift library for FlatBuffers which support most FlatBuffers feature with firendly interface. `1.1.0` version starts to be compatible with Linux, Carthage and Swift Package Manager.
 
 ## Usage
 ### Generate Source code
+
 #### Build flatc
+
 Open `SwiftFlatBuffers.xcworkspace` and set the active schema to `flatc` then run. Find binary file `flatc` in the folder which was named `flatc`.
 
 #### Write a schema
@@ -71,7 +73,19 @@ without namespace:
 CocoaPods:
 
 ```
-pod 'SwiftFlatBuffers'
+pod "SwiftFlatBuffers"
+```
+
+Carthage:
+
+```
+github "TonyStark106/SwiftFlatBuffers" ~> 1.1.0
+```
+
+Swift Package Manager:
+
+```
+.Package(url: "https://github.com/TonyStark106/SwiftFlatBuffers.git", majorVersion: 1)
 ```
 
 ### Code

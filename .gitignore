@@ -72,3 +72,5 @@ Testing/Temporary
 .project
 net/**/obj
 node_modules/
+build/
+Carthage/

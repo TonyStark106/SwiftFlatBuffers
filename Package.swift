@@ -3,6 +3,5 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftFlatBuffers",
-    exclude: excludes
+    name: "SwiftFlatBuffers"
 )
