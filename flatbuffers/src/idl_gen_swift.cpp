@@ -648,7 +648,7 @@ namespace flatbuffers {
                 if (field.deprecated) continue;
                 if (field.value.type.base_type == BASE_TYPE_UTYPE) continue;
                 GenIndent(code_ptr, 2);
-                code += "temp._add_" + checkKeywods(field.name);
+                code += "temp._add_" + field.name;
                 code += "(i: self)\n";
             }
             
