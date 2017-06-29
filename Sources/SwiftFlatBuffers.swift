@@ -87,11 +87,11 @@ extension FBTable {
         if isFixed {
             return true
         }
-        if (vTable + 4 >= bbPos || vTable < 0) {
+        if (vTable < 0) {
             return false
         }
         let vMaxOffset = bb.dataGetInt16(offset: FBOffset(vTable))
-        if Int32(vMaxOffset) > (bbPos - vTable) || vMaxOffset <= 0 {
+        if vMaxOffset <= 0 {
             return false
         }
         let sizeOffset = vTable + 2
