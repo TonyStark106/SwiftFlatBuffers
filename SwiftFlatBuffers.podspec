@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'SwiftFlatBuffers'
-  s.version          = '1.1.0'
+  s.version          = '1.1.1'
   s.summary          = 'SwiftFlatBuffers is a Swift implementation of FlatBuffers.'
 
   s.description      = <<-DESC
