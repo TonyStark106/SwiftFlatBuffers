@@ -75,7 +75,7 @@ open class FBTable {
     open func toFBData() -> Data {
         fatalError("something must wrong")
     }
-
+    
 }
 
 // MARK: - Deserialize
@@ -303,7 +303,7 @@ extension FBTable {
             _bb.dataSet(offset: offset, data: data)
         } else {
             _bb.dataSet(offset: offset,
-                        value: _bb.length - offset + table._bbPos,
+                        value: _bb.length - offset + table.hardPos,
                         length: 4)
             _bb.dataAppend(data: data)
         }
@@ -311,7 +311,7 @@ extension FBTable {
     
     private final func put(str: String, offset: FBOffset) {
         if let strData = str.data(using: .utf8) {
-            var strLen = str.characters.count
+            var strLen = strData.count
             _bb.dataSet(offset: offset,
                         value: _bb.length - offset,
                         length: 4)
@@ -336,7 +336,7 @@ extension FBTable {
                 if table.isFixed == false {
                     let k = FBOffset(i * 4 + 4)
                     pointerData.dataSet(offset: k,
-                                        value: FBOffset(contentData.count) - k + table._bbPos + pointerData.length,
+                                        value: FBOffset(contentData.count) - k + table.hardPos + pointerData.length,
                                         length: 4)
                 }
                 contentData.append(tableData)
@@ -350,7 +350,7 @@ extension FBTable {
                     pointerData.dataSet(offset: k,
                                         value: FBOffset(contentData.count) - k + pointerData.length,
                                         length: 4)
-                    var strLen = str.characters.count
+                    var strLen = strData.count
                     let lenData = Data(bytes: &strLen, count: 4)
                     contentData.append(lenData)
                     contentData.append(strData)
