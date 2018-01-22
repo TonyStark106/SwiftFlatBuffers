@@ -570,7 +570,9 @@ extension Data {
 
 // MARK: http://stackoverflow.com/questions/26953591/how-to-convert-a-double-into-a-byte-array-in-swift
 private func fromByteArray_<T>(_ value: [UInt8], _: T.Type) -> T {
-    return value.withUnsafeBytes {
-        $0.baseAddress!.load(as: T.self)
+    return value.withUnsafeBufferPointer {
+        $0.baseAddress!.withMemoryRebound(to: T.self, capacity: 1) {
+            $0.pointee
+        }
     }
 }
