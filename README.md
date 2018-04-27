@@ -79,7 +79,7 @@ pod "SwiftFlatBuffers"
 Carthage:
 
 ```
-github "TonyStark106/SwiftFlatBuffers" ~> 1.2.0
+github "TonyStark106/SwiftFlatBuffers" ~> 1.2.1
 ```
 
 Swift Package Manager:
