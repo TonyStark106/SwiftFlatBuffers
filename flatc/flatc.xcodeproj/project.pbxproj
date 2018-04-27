@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA8436F92092EB4500B2C8D5 /* java_generator.cc in Sources */ = {isa = PBXBuildFile; fileRef = EA8436F82092EB4500B2C8D5 /* java_generator.cc */; };
+		EA8436FB2092EB9D00B2C8D5 /* idl_gen_json_schema.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA8436FA2092EB9D00B2C8D5 /* idl_gen_json_schema.cpp */; };
 		F72F6ECC1ED1563A00B05886 /* cpp_generator.cc in Sources */ = {isa = PBXBuildFile; fileRef = F72F6ECA1ED1563A00B05886 /* cpp_generator.cc */; };
 		F72F6ECD1ED1563A00B05886 /* go_generator.cc in Sources */ = {isa = PBXBuildFile; fileRef = F72F6ECB1ED1563A00B05886 /* go_generator.cc */; };
 		F72F6F101ED1657D00B05886 /* code_generators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F72F6EFF1ED1657D00B05886 /* code_generators.cpp */; };
@@ -40,6 +42,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EA8436F82092EB4500B2C8D5 /* java_generator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = java_generator.cc; path = ../flatbuffers/grpc/src/compiler/java_generator.cc; sourceTree = "<group>"; };
+		EA8436FA2092EB9D00B2C8D5 /* idl_gen_json_schema.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = idl_gen_json_schema.cpp; sourceTree = "<group>"; };
 		F72F6EA81ED153C600B05886 /* flatc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = flatc; sourceTree = BUILT_PRODUCTS_DIR; };
 		F72F6ECA1ED1563A00B05886 /* cpp_generator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cpp_generator.cc; path = ../flatbuffers/grpc/src/compiler/cpp_generator.cc; sourceTree = "<group>"; };
 		F72F6ECB1ED1563A00B05886 /* go_generator.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = go_generator.cc; path = ../flatbuffers/grpc/src/compiler/go_generator.cc; sourceTree = "<group>"; };
@@ -92,6 +96,7 @@
 		F72F6EC91ED1561E00B05886 /* grpc */ = {
 			isa = PBXGroup;
 			children = (
+				EA8436F82092EB4500B2C8D5 /* java_generator.cc */,
 				F72F6ECA1ED1563A00B05886 /* cpp_generator.cc */,
 				F72F6ECB1ED1563A00B05886 /* go_generator.cc */,
 			);
@@ -110,6 +115,7 @@
 				F72F6F061ED1657D00B05886 /* idl_gen_go.cpp */,
 				F72F6F071ED1657D00B05886 /* idl_gen_grpc.cpp */,
 				F72F6F081ED1657D00B05886 /* idl_gen_js.cpp */,
+				EA8436FA2092EB9D00B2C8D5 /* idl_gen_json_schema.cpp */,
 				F72F6F091ED1657D00B05886 /* idl_gen_php.cpp */,
 				F72F6F0A1ED1657D00B05886 /* idl_gen_python.cpp */,
 				F72F6F0B1ED1657D00B05886 /* idl_gen_swift.cpp */,
@@ -187,6 +193,8 @@
 				F72F6F1C1ED1657D00B05886 /* idl_gen_swift.cpp in Sources */,
 				F72F6F1F1ED1657D00B05886 /* reflection.cpp in Sources */,
 				F72F6F151ED1657D00B05886 /* idl_gen_fbs.cpp in Sources */,
+				EA8436FB2092EB9D00B2C8D5 /* idl_gen_json_schema.cpp in Sources */,
+				EA8436F92092EB4500B2C8D5 /* java_generator.cc in Sources */,
 				F72F6F1D1ED1657D00B05886 /* idl_gen_text.cpp in Sources */,
 				F72F6F1A1ED1657D00B05886 /* idl_gen_php.cpp in Sources */,
 				F72F6F191ED1657D00B05886 /* idl_gen_js.cpp in Sources */,
@@ -300,6 +308,10 @@
 				DEVELOPMENT_TEAM = FJYQ73NATJ;
 				FRAMEWORK_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = (
+					"-D",
+					FLATC_SWIFT,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../flatbuffers/include $(SRCROOT)/../flatbuffers/grpc";
 			};
@@ -311,6 +323,10 @@
 				DEVELOPMENT_TEAM = FJYQ73NATJ;
 				FRAMEWORK_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = (
+					"-D",
+					FLATC_SWIFT,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../flatbuffers/include $(SRCROOT)/../flatbuffers/grpc";
 			};

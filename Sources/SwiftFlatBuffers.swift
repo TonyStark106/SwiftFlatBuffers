@@ -110,7 +110,11 @@ extension FBTable {
     }
     
     public final func getBool(vOffset: FBOffset) -> Bool {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return false
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return false
         }
@@ -118,7 +122,11 @@ extension FBTable {
     }
     
     public final func getInt8(vOffset: FBOffset) -> Int8 {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return 0
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return 0
         }
@@ -126,7 +134,11 @@ extension FBTable {
     }
     
     public final func getUInt8(vOffset: FBOffset) -> UInt8 {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return 0
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return 0
         }
@@ -134,7 +146,11 @@ extension FBTable {
     }
     
     public final func getInt16(vOffset: FBOffset) -> Int16 {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return 0
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return 0
         }
@@ -142,7 +158,11 @@ extension FBTable {
     }
     
     public final func getUInt16(vOffset: FBOffset) -> UInt16 {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return 0
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return 0
         }
@@ -150,7 +170,11 @@ extension FBTable {
     }
     
     public final func getInt32(vOffset: FBOffset) -> Int32 {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return 0
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return 0
         }
@@ -158,7 +182,11 @@ extension FBTable {
     }
     
     public final func getUInt32(vOffset: FBOffset) -> UInt32 {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return 0
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return 0
         }
@@ -166,7 +194,11 @@ extension FBTable {
     }
     
     public final func getInt64(vOffset: FBOffset) -> Int64 {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return 0
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return 0
         }
@@ -174,7 +206,11 @@ extension FBTable {
     }
     
     public final func getUInt64(vOffset: FBOffset) -> UInt64 {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return 0
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return 0
         }
@@ -182,7 +218,11 @@ extension FBTable {
     }
     
     public final func getFloat32(vOffset: FBOffset) -> Float32 {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return 0
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return 0
         }
@@ -190,7 +230,11 @@ extension FBTable {
     }
     
     public final func getFloat64(vOffset: FBOffset) -> Float64 {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return 0
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return 0
         }
@@ -198,7 +242,11 @@ extension FBTable {
     }
     
     public final func getString(vOffset: FBOffset) -> String? {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return nil
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return nil
         }
@@ -206,7 +254,11 @@ extension FBTable {
     }
     
     public final func getStruct<T: FBTable>(type: T.Type, vOffset: FBOffset) -> T? {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return nil
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return nil
         }
@@ -215,7 +267,11 @@ extension FBTable {
     }
     
     public final func getTable<T: FBTable>(type: T.Type, vOffset: FBOffset) -> T? {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+//        if pOffset == vOffset {
+//            return nil
+//        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return nil
         }
@@ -223,30 +279,44 @@ extension FBTable {
     }
     
     public final func getStrings(vOffset: FBOffset) -> [String]? {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return nil
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return nil
         }
         let length = getVectorLength(vOffset: vOffset)
+        guard length > 0 else {
+            return nil
+        }
         var list = [String]()
-        if length != 0 && vOffset > 0 {
+        if vOffset > 0 {
             for i in 0..<length {
                 if let s = _bb.dataGetString(offset: getVector(vOffset: vOffset) + i * 4) {
                     list.append(s)
                 }
             }
         }
-        return list.count > 0 ? list : nil
+        return list
     }
     
     public final func getStructs<T: FBTable>(type: T.Type, vOffset: FBOffset, byteSize: FBOffset) -> [T]? {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        if pOffset == vOffset {
+            return nil
+        }
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return nil
         }
         let length = getVectorLength(vOffset: vOffset)
+        guard length > 0 else {
+            return nil
+        }
         var list = [T]()
-        if length != 0 && vOffset > 0 {
+        if vOffset > 0 {
             for i in 0..<length {
                 let offset = getVector(vOffset: vOffset) + i * byteSize
                 if let s = type.init(pos: offset, bb: _bb) {
@@ -254,11 +324,12 @@ extension FBTable {
                 }
             }
         }
-        return list.count > 0 ? list : nil
+        return list
     }
     
     public final func getTables<T: FBTable>(type: T.Type, vOffset: FBOffset) -> [T]? {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return nil
         }
@@ -276,14 +347,18 @@ extension FBTable {
     }
     
     public final func getNumbers<T>(vOffset: FBOffset) -> [T]? {
-        let offset = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        let offset = getOffset(vOffset: vOffset, pOffset: pOffset)
         if offset == 0 {
             return nil
         }
         let length = getVectorLength(vOffset: vOffset)
+        guard length > 0 else {
+            return nil
+        }
         var list = [T]()
         let size = MemoryLayout<T>.size
-        if length != 0 && vOffset > 0 {
+        if vOffset > 0 {
             for i in 0..<length {
                 let offset = getVector(vOffset: vOffset) + FBOffset(Int(i) * size)
                 if let s = _bb.dataGet(offset: offset) as T? {
@@ -409,11 +484,14 @@ extension FBTable {
 }
 
 extension FBTable {
-    fileprivate final func getOffset(vOffset: FBOffset) -> FBOffset {
+    fileprivate final func getOffset_p(vOffset: FBOffset) -> FBOffset {
+        return FBOffset(_bb.dataGetInt16(offset: vOffset + vTable))
+    }
+    
+    fileprivate final func getOffset(vOffset: FBOffset, pOffset: FBOffset) -> FBOffset {
         if isFixed {
             return _bbPos + vOffset
         }
-        let pOffset = _bb.dataGetInt16(offset: vOffset + vTable)
         if pOffset == 0 {
             return 0
         }
@@ -421,12 +499,16 @@ extension FBTable {
     }
     
     fileprivate final func getVector(vOffset: FBOffset) -> FBOffset {
-        let o = getOffset(vOffset: vOffset)
+        let o = getOffset(vOffset: vOffset, pOffset: getOffset_p(vOffset: vOffset))
         return o + _bb.dataGetInt32(offset: o) + 4
     }
     
     fileprivate final func getVectorLength(vOffset: FBOffset) -> FBOffset {
-        var o = getOffset(vOffset: vOffset)
+        let pOffset = getOffset_p(vOffset: vOffset)
+        guard pOffset != vOffset else {
+            return 0
+        }
+        var o = getOffset(vOffset: vOffset, pOffset: pOffset)
         o += _bb.dataGetInt32(offset: o)
         return _bb.dataGetInt32(offset: o)
     }

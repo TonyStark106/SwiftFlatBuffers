@@ -542,7 +542,7 @@ namespace flatbuffers {
                 code += language_parameters.internal_static;
                 code += "let";
                 code += " allValues = [";
-                for (int i = 0; i < ev_name_upper_check.size(); i++) {
+                for (unsigned long i = 0; i < ev_name_upper_check.size(); i++) {
                     if (i != 0) {
                         code += ", ";
                     }
@@ -770,7 +770,7 @@ namespace flatbuffers {
     bool GenerateSwift(const Parser &parser,
                        const std::string &path,
                        const std::string &file_name) {
-        swift::should_gen_namespace = !parser.opts.swift_without_namespace;
+        swift::should_gen_namespace = parser.opts.swift_with_namespace;
         swift::SwiftGenerator generator(parser, path, file_name);
         return generator.generate();
     }

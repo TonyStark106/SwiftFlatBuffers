@@ -63,10 +63,10 @@ include namespace:
 ```
 ./flatc -sw xxx.fbs
 ``` 
-without namespace:
+with namespace:
 
 ```
-./flatc -sw xxx.fbs --sw-nonamespace
+./flatc -sw xxx.fbs --sw-namespace
 ```
 
 ### Installation
@@ -79,7 +79,7 @@ pod "SwiftFlatBuffers"
 Carthage:
 
 ```
-github "TonyStark106/SwiftFlatBuffers" ~> 1.1.0
+github "TonyStark106/SwiftFlatBuffers" ~> 1.2.0
 ```
 
 Swift Package Manager:
