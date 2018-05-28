@@ -1,7 +1,7 @@
 PODS:
   - MyFlatBuffers (0.0.1):
     - SwiftFlatBuffers
-  - SwiftFlatBuffers (1.1.0)
+  - SwiftFlatBuffers (1.2.2)
 
 DEPENDENCIES:
   - MyFlatBuffers (from `Example/MyFlatBuffers/`)
@@ -14,9 +14,9 @@ EXTERNAL SOURCES:
     :path: "./"
 
 SPEC CHECKSUMS:
-  MyFlatBuffers: 644f9d3d5199c5a83a635e40226374f7fc9d1b25
-  SwiftFlatBuffers: ede559206b523203b520eff95a828aad581c2fd9
+  MyFlatBuffers: 047472446f8b55ee7ecd9f3cfa724e3fcf127bb7
+  SwiftFlatBuffers: 28db1179fb6d6aacae37217eb0f383b001cca45b
 
 PODFILE CHECKSUM: 935e03c369ac29a1e9364fe9c5cdcee2699bfda6
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.5.0

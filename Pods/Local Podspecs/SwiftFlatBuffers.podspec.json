@@ -1,6 +1,6 @@
 {
   "name": "SwiftFlatBuffers",
-  "version": "1.1.0",
+  "version": "1.2.2",
   "summary": "SwiftFlatBuffers is a Swift implementation of FlatBuffers.",
   "description": "FlatBuffers is an efficient cross platform serialization library.\nSwiftFlatBuffers is a Swift implementation of FlatBuffers.",
   "homepage": "https://github.com/TonyStark106/SwiftFlatBuffers",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/TonyStark106/SwiftFlatBuffers.git",
-    "tag": "1.1.0"
+    "tag": "1.2.2"
   },
   "requires_arc": true,
   "platforms": {

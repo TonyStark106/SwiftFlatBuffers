@@ -7,13 +7,13 @@
 import Foundation
 import SwiftFlatBuffers
 
-public enum MyGame_OtherNameSpace_FromInclude: Int64 {
+public enum FromInclude: Int64 {
 
     case IncludeVal = 0
 
 }
 
-public final class MyGame_OtherNameSpace_Unused: FBTable {
+public final class Unused: FBTable {
 
     public final override var hardPos: FBOffset {
         return 0
@@ -24,13 +24,13 @@ public final class MyGame_OtherNameSpace_Unused: FBTable {
     }
 
     public final override func toFBData() -> Data {
-        let temp = MyGame_OtherNameSpace_Unused()
+        let temp = Unused()
         return temp.bbData
     }
 
 }
 
-extension MyGame_OtherNameSpace_Unused {
+extension Unused {
 
 }
 

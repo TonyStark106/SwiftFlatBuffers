@@ -450,6 +450,9 @@ extension FBTable {
         if pOffset == 0 {
             return 0
         }
+        if vOffset >= _bb.dataGetUInt8(offset: vTable) {
+            return 0
+        }
         return FBOffset(pOffset) + _bbPos
     }
     
@@ -460,9 +463,6 @@ extension FBTable {
     
     fileprivate final func getVectorLength(vOffset: FBOffset) -> FBOffset {
         let pOffset = getOffset_p(vOffset: vOffset)
-        guard pOffset != vOffset else {
-            return 0
-        }
         var o = getOffset(vOffset: vOffset, pOffset: pOffset)
         o += _bb.dataGetInt32(offset: o)
         return _bb.dataGetInt32(offset: o)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'AAE577367D6A9FE65847A6B67B1D5C91'
-               BlueprintName = 'MyFlatBuffers'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'MyFlatBuffers.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AAE577367D6A9FE65847A6B67B1D5C91"
+               BlueprintName = "MyFlatBuffers"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "MyFlatBuffers.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

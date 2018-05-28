@@ -7,7 +7,7 @@
 import Foundation
 import SwiftFlatBuffers
 
-public enum MyGame_Example_Color: Int8 {
+public enum Color: Int8 {
 
     case Red = 1
 
@@ -17,7 +17,7 @@ public enum MyGame_Example_Color: Int8 {
 
 }
 
-public enum MyGame_Example_Any: UInt8 {
+public enum `Any`: UInt8 {
 
     case NONE = 0
 
@@ -32,17 +32,17 @@ public enum MyGame_Example_Any: UInt8 {
         case .NONE:
             return nil
         case .MONSTER:
-            return MyGame_Example_Monster.self
+            return Monster.self
         case .TESTSIMPLETABLEWITHENUM:
-            return MyGame_Example_TestSimpleTableWithEnum.self
+            return TestSimpleTableWithEnum.self
         case .MYGAME_EXAMPLE2_MONSTER:
-            return MyGame_Example2_Monster.self
+            return Monster.self
         }
     }
 
     internal static let allValues = [NONE, MONSTER, TESTSIMPLETABLEWITHENUM, MYGAME_EXAMPLE2_MONSTER]
 
-    internal static func value(_ ins: FBTable?) -> MyGame_Example_Any {
+    internal static func value(_ ins: FBTable?) -> `Any` {
         if ins == nil {
             return .NONE
         }
@@ -51,12 +51,12 @@ public enum MyGame_Example_Any: UInt8 {
                 return value
             }
         }
-        fatalError("Can't not serialize \(String(describing: ins)) to MyGame_Example_Any")
+        fatalError("Can't not serialize \(String(describing: ins)) to `Any`")
     }
 
 }
 
-public final class MyGame_Example2_Monster: FBTable {
+public final class Monster: FBTable {
 
     public final override var hardPos: FBOffset {
         return 10
@@ -67,17 +67,17 @@ public final class MyGame_Example2_Monster: FBTable {
     }
 
     public final override func toFBData() -> Data {
-        let temp = MyGame_Example2_Monster()
+        let temp = Monster()
         return temp.bbData
     }
 
 }
 
-extension MyGame_Example2_Monster {
+extension Monster {
 
 }
 
-public final class MyGame_Example_Test: FBTable {
+public final class Test: FBTable {
 
     public final lazy var a: Int16 = {
         return self.getInt16(vOffset: 0)
@@ -96,7 +96,7 @@ public final class MyGame_Example_Test: FBTable {
     }
 
     public final override func toFBData() -> Data {
-        let temp = MyGame_Example_Test()
+        let temp = Test()
         temp._add_a(i: self)
         temp._add_b(i: self)
         return temp.bbData
@@ -104,23 +104,23 @@ public final class MyGame_Example_Test: FBTable {
 
 }
 
-extension MyGame_Example_Test {
+extension Test {
 
-    fileprivate final func _add_a(i: MyGame_Example_Test) {
+    fileprivate final func _add_a(i: Test) {
         set(vOffset: 0, pOffset: 4, value: i.a)
     }
 
-    fileprivate final func _add_b(i: MyGame_Example_Test) {
+    fileprivate final func _add_b(i: Test) {
         set(vOffset: 2, pOffset: 6, value: i.b)
     }
 
 }
 
-public final class MyGame_Example_TestSimpleTableWithEnum: FBTable {
+public final class TestSimpleTableWithEnum: FBTable {
 
-    public final lazy var color: MyGame_Example_Color? = {
-        let m_color = MyGame_Example_Color(rawValue: self.getInt8(vOffset: 4))
-        return m_color ?? MyGame_Example_Color(rawValue: 2)!
+    public final lazy var color: Color? = {
+        let m_color = Color(rawValue: self.getInt8(vOffset: 4))
+        return m_color ?? Color(rawValue: 2)!
     }()
 
     public final override var hardPos: FBOffset {
@@ -132,22 +132,22 @@ public final class MyGame_Example_TestSimpleTableWithEnum: FBTable {
     }
 
     public final override func toFBData() -> Data {
-        let temp = MyGame_Example_TestSimpleTableWithEnum()
+        let temp = TestSimpleTableWithEnum()
         temp._add_color(i: self)
         return temp.bbData
     }
 
 }
 
-extension MyGame_Example_TestSimpleTableWithEnum {
+extension TestSimpleTableWithEnum {
 
-    fileprivate final func _add_color(i: MyGame_Example_TestSimpleTableWithEnum) {
+    fileprivate final func _add_color(i: TestSimpleTableWithEnum) {
         set(vOffset: 4, pOffset: 4, value: i.color?.rawValue)
     }
 
 }
 
-public final class MyGame_Example_Vec3: FBTable {
+public final class Vec3: FBTable {
 
     public final lazy var x: Float32 = {
         return self.getFloat32(vOffset: 0)
@@ -165,12 +165,12 @@ public final class MyGame_Example_Vec3: FBTable {
         return self.getFloat64(vOffset: 16)
     }()
 
-    public final lazy var test2: MyGame_Example_Color? = {
-        return MyGame_Example_Color(rawValue: self.getInt8(vOffset: 24))
+    public final lazy var test2: Color? = {
+        return Color(rawValue: self.getInt8(vOffset: 24))
     }()
 
-    public final lazy var test3: MyGame_Example_Test? = {
-        return self.getStruct(type: MyGame_Example_Test.self, vOffset: 26)
+    public final lazy var test3: Test? = {
+        return self.getStruct(type: Test.self, vOffset: 26)
     }()
 
     public final override var hardPos: FBOffset {
@@ -182,7 +182,7 @@ public final class MyGame_Example_Vec3: FBTable {
     }
 
     public final override func toFBData() -> Data {
-        let temp = MyGame_Example_Vec3()
+        let temp = Vec3()
         temp._add_x(i: self)
         temp._add_y(i: self)
         temp._add_z(i: self)
@@ -194,35 +194,35 @@ public final class MyGame_Example_Vec3: FBTable {
 
 }
 
-extension MyGame_Example_Vec3 {
+extension Vec3 {
 
-    fileprivate final func _add_x(i: MyGame_Example_Vec3) {
+    fileprivate final func _add_x(i: Vec3) {
         set(vOffset: 0, pOffset: 4, value: i.x)
     }
 
-    fileprivate final func _add_y(i: MyGame_Example_Vec3) {
+    fileprivate final func _add_y(i: Vec3) {
         set(vOffset: 4, pOffset: 8, value: i.y)
     }
 
-    fileprivate final func _add_z(i: MyGame_Example_Vec3) {
+    fileprivate final func _add_z(i: Vec3) {
         set(vOffset: 8, pOffset: 12, value: i.z)
     }
 
-    fileprivate final func _add_test1(i: MyGame_Example_Vec3) {
+    fileprivate final func _add_test1(i: Vec3) {
         set(vOffset: 16, pOffset: 16, value: i.test1)
     }
 
-    fileprivate final func _add_test2(i: MyGame_Example_Vec3) {
+    fileprivate final func _add_test2(i: Vec3) {
         set(vOffset: 24, pOffset: 24, value: i.test2?.rawValue)
     }
 
-    fileprivate final func _add_test3(i: MyGame_Example_Vec3) {
+    fileprivate final func _add_test3(i: Vec3) {
         set(vOffset: 26, pOffset: 25, value: i.test3)
     }
 
 }
 
-public final class MyGame_Example_Ability: FBTable {
+public final class Ability: FBTable {
 
     public final lazy var id: UInt32 = {
         return self.getUInt32(vOffset: 0)
@@ -241,7 +241,7 @@ public final class MyGame_Example_Ability: FBTable {
     }
 
     public final override func toFBData() -> Data {
-        let temp = MyGame_Example_Ability()
+        let temp = Ability()
         temp._add_id(i: self)
         temp._add_distance(i: self)
         return temp.bbData
@@ -249,19 +249,19 @@ public final class MyGame_Example_Ability: FBTable {
 
 }
 
-extension MyGame_Example_Ability {
+extension Ability {
 
-    fileprivate final func _add_id(i: MyGame_Example_Ability) {
+    fileprivate final func _add_id(i: Ability) {
         set(vOffset: 0, pOffset: 4, value: i.id)
     }
 
-    fileprivate final func _add_distance(i: MyGame_Example_Ability) {
+    fileprivate final func _add_distance(i: Ability) {
         set(vOffset: 4, pOffset: 8, value: i.distance)
     }
 
 }
 
-public final class MyGame_Example_Stat: FBTable {
+public final class Stat: FBTable {
 
     public final lazy var id: String? = {
         return self.getString(vOffset: 4)
@@ -284,7 +284,7 @@ public final class MyGame_Example_Stat: FBTable {
     }
 
     public final override func toFBData() -> Data {
-        let temp = MyGame_Example_Stat()
+        let temp = Stat()
         temp._add_id(i: self)
         temp._add_val(i: self)
         temp._add_count(i: self)
@@ -293,27 +293,27 @@ public final class MyGame_Example_Stat: FBTable {
 
 }
 
-extension MyGame_Example_Stat {
+extension Stat {
 
-    fileprivate final func _add_id(i: MyGame_Example_Stat) {
+    fileprivate final func _add_id(i: Stat) {
         set(vOffset: 4, pOffset: 4, value: i.id)
     }
 
-    fileprivate final func _add_val(i: MyGame_Example_Stat) {
+    fileprivate final func _add_val(i: Stat) {
         set(vOffset: 6, pOffset: 8, value: i.val)
     }
 
-    fileprivate final func _add_count(i: MyGame_Example_Stat) {
+    fileprivate final func _add_count(i: Stat) {
         set(vOffset: 8, pOffset: 16, value: i.count)
     }
 
 }
 
 // MARK:  an example documentation comment: monster object 
-public final class MyGame_Example_Monster: FBTable {
+public final class Monster: FBTable {
 
-    public final lazy var pos: MyGame_Example_Vec3? = {
-        return self.getStruct(type: MyGame_Example_Vec3.self, vOffset: 4)
+    public final lazy var pos: Vec3? = {
+        return self.getStruct(type: Vec3.self, vOffset: 4)
     }()
 
     public final lazy var mana: Int16 = {
@@ -334,21 +334,21 @@ public final class MyGame_Example_Monster: FBTable {
         return self.getNumbers(vOffset: 14)
     }()
 
-    public final lazy var color: MyGame_Example_Color? = {
-        let m_color = MyGame_Example_Color(rawValue: self.getInt8(vOffset: 16))
-        return m_color ?? MyGame_Example_Color(rawValue: 8)!
+    public final lazy var color: Color? = {
+        let m_color = Color(rawValue: self.getInt8(vOffset: 16))
+        return m_color ?? Color(rawValue: 8)!
     }()
 
     fileprivate final lazy var test_type: FBTable.Type? = {
-        return MyGame_Example_Any(rawValue: self.getUInt8(vOffset: 18))?.type
+        return `Any`(rawValue: self.getUInt8(vOffset: 18))?.type
     }()
 
     public final lazy var test: FBTable? = {
         return self.test_type != nil ? self.getTable(type: self.test_type!, vOffset: 20) : nil
     }()
 
-    public final lazy var test4: [MyGame_Example_Test]? = {
-        return self.getStructs(type: MyGame_Example_Test.self, vOffset: 22, byteSize: 4)
+    public final lazy var test4: [Test]? = {
+        return self.getStructs(type: Test.self, vOffset: 22, byteSize: 4)
     }()
 
     public final lazy var testarrayofstring: [String]? = {
@@ -356,20 +356,20 @@ public final class MyGame_Example_Monster: FBTable {
     }()
 
     // MARK:  an example documentation comment: this will end up in the generated code  multiline too 
-    public final lazy var testarrayoftables: [MyGame_Example_Monster]? = {
-        return self.getTables(type: MyGame_Example_Monster.self, vOffset: 26)
+    public final lazy var testarrayoftables: [Monster]? = {
+        return self.getTables(type: Monster.self, vOffset: 26)
     }()
 
-    public final lazy var enemy: MyGame_Example_Monster? = {
-        return self.getTable(type: MyGame_Example_Monster.self, vOffset: 28)
+    public final lazy var enemy: Monster? = {
+        return self.getTable(type: Monster.self, vOffset: 28)
     }()
 
     public final lazy var testnestedflatbuffer: [UInt8]? = {
         return self.getNumbers(vOffset: 30)
     }()
 
-    public final lazy var testempty: MyGame_Example_Stat? = {
-        return self.getTable(type: MyGame_Example_Stat.self, vOffset: 32)
+    public final lazy var testempty: Stat? = {
+        return self.getTable(type: Stat.self, vOffset: 32)
     }()
 
     public final lazy var testbool: Bool = {
@@ -430,8 +430,8 @@ public final class MyGame_Example_Monster: FBTable {
         return self.getStrings(vOffset: 60)
     }()
 
-    public final lazy var testarrayofsortedstruct: [MyGame_Example_Ability]? = {
-        return self.getStructs(type: MyGame_Example_Ability.self, vOffset: 62, byteSize: 8)
+    public final lazy var testarrayofsortedstruct: [Ability]? = {
+        return self.getStructs(type: Ability.self, vOffset: 62, byteSize: 8)
     }()
 
     public final override var hardPos: FBOffset {
@@ -443,7 +443,7 @@ public final class MyGame_Example_Monster: FBTable {
     }
 
     public final override func toFBData() -> Data {
-        let temp = MyGame_Example_Monster()
+        let temp = Monster()
         temp._add_pos(i: self)
         temp._add_mana(i: self)
         temp._add_hp(i: self)
@@ -477,118 +477,118 @@ public final class MyGame_Example_Monster: FBTable {
 
 }
 
-extension MyGame_Example_Monster {
+extension Monster {
 
-    fileprivate final func _add_pos(i: MyGame_Example_Monster) {
+    fileprivate final func _add_pos(i: Monster) {
         set(vOffset: 4, pOffset: 4, value: i.pos)
     }
 
-    fileprivate final func _add_mana(i: MyGame_Example_Monster) {
+    fileprivate final func _add_mana(i: Monster) {
         set(vOffset: 6, pOffset: 36, value: i.mana)
     }
 
-    fileprivate final func _add_hp(i: MyGame_Example_Monster) {
+    fileprivate final func _add_hp(i: Monster) {
         set(vOffset: 8, pOffset: 38, value: i.hp)
     }
 
-    fileprivate final func _add_name(i: MyGame_Example_Monster) {
+    fileprivate final func _add_name(i: Monster) {
         set(vOffset: 10, pOffset: 40, value: i.name)
     }
 
-    fileprivate final func _add_inventory(i: MyGame_Example_Monster) {
+    fileprivate final func _add_inventory(i: Monster) {
         set(vOffset: 14, pOffset: 44, value: i.inventory)
     }
 
-    fileprivate final func _add_color(i: MyGame_Example_Monster) {
+    fileprivate final func _add_color(i: Monster) {
         set(vOffset: 16, pOffset: 48, value: i.color?.rawValue)
     }
 
-    fileprivate final func _add_test(i: MyGame_Example_Monster) {
-        set(vOffset: 18, pOffset: 49, value: MyGame_Example_Any.value(i.test))
+    fileprivate final func _add_test(i: Monster) {
+        set(vOffset: 18, pOffset: 49, value: `Any`.value(i.test))
         set(vOffset: 20, pOffset: 50, value: i.test)
     }
 
-    fileprivate final func _add_test4(i: MyGame_Example_Monster) {
+    fileprivate final func _add_test4(i: Monster) {
         set(vOffset: 22, pOffset: 54, value: i.test4)
     }
 
-    fileprivate final func _add_testarrayofstring(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testarrayofstring(i: Monster) {
         set(vOffset: 24, pOffset: 58, value: i.testarrayofstring)
     }
 
-    fileprivate final func _add_testarrayoftables(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testarrayoftables(i: Monster) {
         set(vOffset: 26, pOffset: 62, value: i.testarrayoftables)
     }
 
-    fileprivate final func _add_enemy(i: MyGame_Example_Monster) {
+    fileprivate final func _add_enemy(i: Monster) {
         set(vOffset: 28, pOffset: 66, value: i.enemy)
     }
 
-    fileprivate final func _add_testnestedflatbuffer(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testnestedflatbuffer(i: Monster) {
         set(vOffset: 30, pOffset: 70, value: i.testnestedflatbuffer)
     }
 
-    fileprivate final func _add_testempty(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testempty(i: Monster) {
         set(vOffset: 32, pOffset: 74, value: i.testempty)
     }
 
-    fileprivate final func _add_testbool(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testbool(i: Monster) {
         set(vOffset: 34, pOffset: 78, value: i.testbool)
     }
 
-    fileprivate final func _add_testhashs32_fnv1(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testhashs32_fnv1(i: Monster) {
         set(vOffset: 36, pOffset: 79, value: i.testhashs32_fnv1)
     }
 
-    fileprivate final func _add_testhashu32_fnv1(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testhashu32_fnv1(i: Monster) {
         set(vOffset: 38, pOffset: 83, value: i.testhashu32_fnv1)
     }
 
-    fileprivate final func _add_testhashs64_fnv1(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testhashs64_fnv1(i: Monster) {
         set(vOffset: 40, pOffset: 87, value: i.testhashs64_fnv1)
     }
 
-    fileprivate final func _add_testhashu64_fnv1(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testhashu64_fnv1(i: Monster) {
         set(vOffset: 42, pOffset: 95, value: i.testhashu64_fnv1)
     }
 
-    fileprivate final func _add_testhashs32_fnv1a(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testhashs32_fnv1a(i: Monster) {
         set(vOffset: 44, pOffset: 103, value: i.testhashs32_fnv1a)
     }
 
-    fileprivate final func _add_testhashu32_fnv1a(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testhashu32_fnv1a(i: Monster) {
         set(vOffset: 46, pOffset: 107, value: i.testhashu32_fnv1a)
     }
 
-    fileprivate final func _add_testhashs64_fnv1a(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testhashs64_fnv1a(i: Monster) {
         set(vOffset: 48, pOffset: 111, value: i.testhashs64_fnv1a)
     }
 
-    fileprivate final func _add_testhashu64_fnv1a(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testhashu64_fnv1a(i: Monster) {
         set(vOffset: 50, pOffset: 119, value: i.testhashu64_fnv1a)
     }
 
-    fileprivate final func _add_testarrayofbools(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testarrayofbools(i: Monster) {
         set(vOffset: 52, pOffset: 127, value: i.testarrayofbools)
     }
 
-    fileprivate final func _add_testf(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testf(i: Monster) {
         set(vOffset: 54, pOffset: 131, value: i.testf)
     }
 
-    fileprivate final func _add_testf2(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testf2(i: Monster) {
         set(vOffset: 56, pOffset: 135, value: i.testf2)
     }
 
-    fileprivate final func _add_testf3(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testf3(i: Monster) {
         set(vOffset: 58, pOffset: 139, value: i.testf3)
     }
 
-    fileprivate final func _add_testarrayofstring2(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testarrayofstring2(i: Monster) {
         set(vOffset: 60, pOffset: 143, value: i.testarrayofstring2)
     }
 
-    fileprivate final func _add_testarrayofsortedstruct(i: MyGame_Example_Monster) {
+    fileprivate final func _add_testarrayofsortedstruct(i: Monster) {
         set(vOffset: 62, pOffset: 147, value: i.testarrayofsortedstruct)
     }
 
